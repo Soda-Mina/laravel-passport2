@@ -1,8 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use Validator;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Resources\ProductResource;
+use App\Http\Controllers\Controller as Controller;
 
 class ProductController extends Controller
 {
