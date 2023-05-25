@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
-use Validator;
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\Product;
+use Validator;
 use App\Http\Resources\ProductResource;
-use App\Http\Controllers\Controller as Controller;
+use Illuminate\Http\JsonResponse;
 
-class ProductController extends Controller
+class ProductController extends BaseController
 {
     public function index(): JsonResponse
     {
-        $product = Product::all();
+        $products = Product::all();
 
-        return $this->sendResponse(ProductResource::collection($products), 'Production retrieved successfully.');
+        return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully.');
     }
 
     public function store(Request $request): JsonResponse
@@ -33,21 +33,22 @@ class ProductController extends Controller
 
         $product = Product::create($input);
 
-        return $this->sendResponse(new ProductResource($product), 'Product created succesfully.');
+        return $this->sendResponse(new ProductResource($product), 'Product created successfully.');
     }
 
     public function show($id): JsonResponse
     {
         $product = Product::find($id);
 
-        if(is_null($product)){
+        if (is_null($product)) {
             return $this->sendError('Product not found.');
         }
 
-        return $this->sendResponse(new ProductResponse($product), 'Product retrieved successfully.');
+        return $this->sendResponse(new ProductResource($product), 'Product retrieved successfully.');
+
     }
 
-    public function update(Request $request, Product $product): Jsonresponse
+    public function update(Request $request, Product $product): JsonResponse
     {
         $input = $request->all();
 
@@ -64,7 +65,7 @@ class ProductController extends Controller
         $product->detail = $input['detail'];
         $product->save();
 
-        return $this->sendResponse(new ProductResource($product), 'Product updated succesfully.');
+        return $this->sendResponse(new ProductResource($product), 'Product updated successfully.');
     }
 
     public function destroy(Product $product): JsonResponse
