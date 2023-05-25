@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller as Controller;
+use App\Http\Controllers\API\BaseController as BaseController;
 
-class RegisterController extends Controller
+class RegisterController extends BaseController
 {
-    public function register(Request $request){
+    public function register(Request $request): JsonResponse
+    {
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required|email',
